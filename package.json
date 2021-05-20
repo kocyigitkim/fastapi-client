@@ -1,0 +1,20 @@
+{
+  "dependencies": {
+    "uuid": "^8.3.2"
+  },
+  "name": "fastapi-client",
+  "description": "Fast Api Client Infrastructure",
+  "version": "1.0.0",
+  "main": "index.js",
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kocyigitkim/fastapi-client.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kocyigitkim/fastapi-client/issues"
+  },
+  "homepage": "https://github.com/kocyigitkim/fastapi-client#readme"
+}
