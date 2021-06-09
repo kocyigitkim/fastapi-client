@@ -90,3 +90,7 @@ class FastApiClient {
         return response;
     }
 }
+
+
+module.exports.FastApiClient = FastApiClient;
+module.exports.FastApiSessionController = FastApiSessionController;
