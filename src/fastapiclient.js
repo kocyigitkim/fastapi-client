@@ -14,13 +14,13 @@ class FastApiSessionController {
     constructor(name) {
         this.name = name;
     }
-    static FastApiSession = new FastApiSessionController("fastapi");
-    static ExpressSession = new FastApiSessionController("express");
 }
 
+FastApiSessionController.FastApiSession = new FastApiSessionController("fastapi");
+FastApiSessionController.ExpressSession = new FastApiSessionController("express");
 
 class FastApiClient {
-    constructor(basePath = "/api", baseUri = window.location.origin) {
+    constructor(basePath = "api", baseUri = window.location.origin) {
         this.basePath = basePath;
         this.baseUri = baseUri;
         this.sessionController = FastApiSessionController.ExpressSession;
@@ -60,7 +60,7 @@ class FastApiClient {
         var extra = {};
         method = method.toLowerCase();
         var headers = {
-            'Content-Type': 'application/json; charset=utf8'
+            'Content-Type': 'application/json'
         };
         if (this.sessionController.name == "fastapi") {
             var sessionid = window.localStorage.getItem("fsi");
@@ -81,7 +81,7 @@ class FastApiClient {
         if (this.corsEnabled) {
             extra["mode"] = "cors";
         }
-        var response = fetch(generatedURL, {
+        var response = fetch(generatedURL.replace(/\/{2,}/g, "/").replace(/^(https?)\:\//,"$1://"), {
             method: method,
             headers: headers,
             body: body,
@@ -90,6 +90,3 @@ class FastApiClient {
         return response;
     }
 }
-
-module.exports = FastApiClient;
-module.exports.FastApiSessionController = FastApiSessionController;
