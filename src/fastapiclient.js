@@ -1,4 +1,9 @@
-const uuid = require('uuid');
+function uuidv4() {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+        var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+        return v.toString(16);
+    });
+}
 
 var STRIP_COMMENTS = /((\/\/.*$)|(\/\*[\s\S]*?\*\/))/mg;
 var ARGUMENT_NAMES = /([^\s,]+)/g;
@@ -64,8 +69,9 @@ class FastApiClient {
         };
         if (this.sessionController.name == "fastapi") {
             var sessionid = window.localStorage.getItem("fsi");
+            if (sessionid instanceof Promise) sessionid = await sessionid;
             if (sessionid == null || sessionid == undefined || sessionid.trim().length == 0) {
-                sessionid = uuid.v4();
+                sessionid = uuidv4();
                 window.localStorage.setItem("fsi", sessionid);
             }
             headers['sessionid'] = sessionid;
@@ -81,7 +87,7 @@ class FastApiClient {
         if (this.corsEnabled) {
             extra["mode"] = "cors";
         }
-        var response = fetch(generatedURL.replace(/\/{2,}/g, "/").replace(/^(https?)\:\//,"$1://"), {
+        var response = fetch(generatedURL.replace(/\/{2,}/g, "/").replace(/^(https?)\:\//, "$1://"), {
             method: method,
             headers: headers,
             body: body,

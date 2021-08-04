@@ -1,3 +1,1 @@
-module.exports = {
-    FastApiClient: require('./src/fastapiclient')
-};
+module.exports = require('./src/fastapiclient');
