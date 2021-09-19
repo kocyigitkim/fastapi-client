@@ -1,9 +1,13 @@
 {
   "name": "fastapi-express-client",
   "description": "Fast Api Client Infrastructure",
-  "version": "1.0.9",
-  "main": "index.js",
-  "devDependencies": {},
+  "version": "1.1.1",
+  "main": "build/index",
+  "types": "build/index.d.ts",
+  "devDependencies": {
+    "@types/typescript": "^2.0.0",
+    "typescript": "^4.4.3"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/kocyigitkim/fastapi-client.git"

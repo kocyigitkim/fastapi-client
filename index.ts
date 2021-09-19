@@ -15,26 +15,23 @@ function getParamNames(func) {
     return result;
 }
 
-class FastApiSessionController {
-    constructor(name) {
-        this.name = name;
-    }
+export class FastApiSessionController {
+    constructor(public name: string) {}
+    public static FastApiSession: FastApiSessionController = new FastApiSessionController('fastapi');
+    public static ExpressSession: FastApiSessionController = new FastApiSessionController('express');
 }
 
-FastApiSessionController.FastApiSession = new FastApiSessionController("fastapi");
-FastApiSessionController.ExpressSession = new FastApiSessionController("express");
-
-class FastApiClient {
+export class FastApiClient {
+    private basePath: string;
+    private baseUri: string;
+    private sessionController: FastApiSessionController;
+    private corsEnabled: boolean = false;
     constructor(basePath = "api", baseUri = window.location.origin) {
         this.basePath = basePath;
         this.baseUri = baseUri;
-        this.sessionController = FastApiSessionController.ExpressSession;
+        this.sessionController = (FastApiSessionController as any).ExpressSession;
     }
-    /**
-     * 
-     * @param {FastApiSessionController} controllerCode 
-     */
-    setSession(controllerCode) {
+    setSession(controllerCode: FastApiSessionController) {
         this.sessionController = controllerCode;
     }
     setCors() {
@@ -69,7 +66,6 @@ class FastApiClient {
         };
         if (this.sessionController.name == "fastapi") {
             var sessionid = window.localStorage.getItem("fsi");
-            if (sessionid instanceof Promise) sessionid = await sessionid;
             if (sessionid == null || sessionid == undefined || sessionid.trim().length == 0) {
                 sessionid = uuidv4();
                 window.localStorage.setItem("fsi", sessionid);
@@ -96,7 +92,3 @@ class FastApiClient {
         return response;
     }
 }
-
-
-module.exports.FastApiClient = FastApiClient;
-module.exports.FastApiSessionController = FastApiSessionController;
